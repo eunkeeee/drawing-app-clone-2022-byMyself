@@ -14,14 +14,16 @@ let isPainting = false;
 strokeOrFillBtn.innerText = "Draw Line";
 let isStroke = true;
 
+function changeStyles(style) {
+  ctx.fillStyle = style;
+  ctx.strokeStyle = style;
+}
 function onColorChange(event) {
-  ctx.fillStyle = event.target.value;
-  ctx.strokeStyle = event.target.value;
+  changeStyles(event.target.value);
 }
 function onColorChoose(event) {
   const chosenColor = event.target.dataset.color;
-  ctx.fillStyle = chosenColor;
-  ctx.strokeStyle = chosenColor;
+  changeStyles(chosenColor);
   color.value = chosenColor; // 고른 컬러에 대한 피드백 제공
 }
 function onMouseMove(event) {
