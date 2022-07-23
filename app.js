@@ -1,6 +1,7 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const strokeOrFillBtn = document.querySelector("#stroke-or-fill");
+const modeBtn = document.querySelector("#mode-btn");
 const lineWidth = document.querySelector("#line-width");
 const color = document.querySelector("#color");
 const colorOptions = Array.from(document.querySelectorAll(".color-option"));
@@ -13,6 +14,9 @@ let isPainting = false;
 
 strokeOrFillBtn.innerText = "Draw Line";
 let isStroke = true;
+
+modeBtn.innerText = "그리기";
+let modeDefaultStroke = true;
 
 function changeStyles(style) {
   ctx.fillStyle = style;
@@ -49,22 +53,33 @@ function quitPainting() {
 function StrokeFillChange() {
   if (isStroke) {
     isStroke = false;
-    strokeOrFillBtn.innerText = "Draw Surface";
+    strokeOrFillBtn.innerText = "Draw Line";
   } else {
     isStroke = true;
-    strokeOrFillBtn.innerText = "Draw Line";
+    strokeOrFillBtn.innerText = "Draw Surface";
   }
 }
 function onLineWidthChange(event) {
   ctx.lineWidth = event.target.value;
 }
+function changeMode() {
+  if (modeDefaultStroke) {
+    modeDefaultStroke = false;
+    modeBtn.innerText = "채우기";
+  } else {
+    modeDefaultStroke = true;
+    modeBtn.innerText = "그리기";
+  }
+}
 
 canvas.addEventListener("mousemove", onMouseMove);
 canvas.addEventListener("mousedown", startPainting);
 canvas.addEventListener("mouseup", quitPainting);
+canvas.addEventListener("mouseleave", quitPainting); // 오류 방지
 strokeOrFillBtn.addEventListener("click", StrokeFillChange);
 lineWidth.addEventListener("change", onLineWidthChange);
 color.addEventListener("change", onColorChange);
 colorOptions.forEach((element) =>
   element.addEventListener("click", onColorChoose)
 );
+modeBtn.addEventListener("click", changeMode);
