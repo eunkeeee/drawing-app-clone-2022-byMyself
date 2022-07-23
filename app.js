@@ -75,7 +75,11 @@ function selectEraser() {
   modeBtn.innerText = "그리기";
 }
 function selectDeleteAll() {
-  changeStyles("white");
+  result = confirm("Are you sure to Delete All?");
+  if (result) {
+    changeStyles("white");
+    ctx.fillRect(0, 0, 800, 800);
+  }
 }
 
 canvas.addEventListener("mousemove", onMouseMove);
