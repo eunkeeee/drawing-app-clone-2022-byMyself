@@ -3,6 +3,7 @@ const ctx = canvas.getContext("2d");
 const modeBtn = document.querySelector("#mode-btn");
 const eraser = document.querySelector("#eraser");
 const deleteAll = document.querySelector("#delete-all");
+const fileInput = document.querySelector("#file");
 
 const lineWidth = document.querySelector("#line-width");
 const color = document.querySelector("#color");
@@ -81,6 +82,16 @@ function selectDeleteAll() {
     ctx.fillRect(0, 0, 800, 800);
   }
 }
+function onFileChange(event) {
+  const file = event.target.files[0];
+  const url = URL.createObjectURL(file);
+  const image = new Image();
+  image.src = url;
+  image.onload = function () {
+    ctx.drawImage(image, 0, 0, 800, 800);
+    fileInput.value = null;
+  };
+}
 
 canvas.addEventListener("mousemove", onMouseMove);
 canvas.addEventListener("mousedown", startPainting);
@@ -89,6 +100,7 @@ canvas.addEventListener("mouseleave", quitPainting); // 오류 방지
 modeBtn.addEventListener("click", changeMode);
 eraser.addEventListener("click", selectEraser);
 deleteAll.addEventListener("click", selectDeleteAll);
+fileInput.addEventListener("change", onFileChange);
 
 lineWidth.addEventListener("change", onLineWidthChange);
 color.addEventListener("change", onColorChange);
