@@ -4,6 +4,8 @@ const modeBtn = document.querySelector("#mode-btn");
 const eraser = document.querySelector("#eraser");
 const deleteAll = document.querySelector("#delete-all");
 const fileInput = document.querySelector("#file");
+const textModeBtn = document.querySelector(".text-mode");
+const textInput = document.querySelector("#text");
 
 const lineWidth = document.querySelector("#line-width");
 const color = document.querySelector("#color");
@@ -14,6 +16,11 @@ canvas.height = 800;
 
 ctx.lineWidth = lineWidth.value; // 초기값 설정 (html에서 지정한 5)
 let isPainting = false;
+
+let isTextFilling = true;
+textModeBtn.innerText = "글씨 채우기";
+
+// ctx.lineCap = round;
 
 // 0: 그리기 / 1: 색칠하기 / 2: 전체 채우기
 modeBtn.innerText = "그리기";
@@ -76,11 +83,13 @@ function selectEraser() {
   modeBtn.innerText = "그리기";
 }
 function selectDeleteAll() {
+  ctx.save();
   result = confirm("Are you sure to Delete All?");
   if (result) {
     changeStyles("white");
     ctx.fillRect(0, 0, 800, 800);
   }
+  ctx.restore();
 }
 function onFileChange(event) {
   const file = event.target.files[0];
@@ -91,6 +100,29 @@ function onFileChange(event) {
     ctx.drawImage(image, 0, 0, 800, 800);
     fileInput.value = null;
   };
+}
+function insertText(event) {
+  const text = textInput.value;
+  if (text !== "") {
+    ctx.save();
+    ctx.lineWidth = 1;
+    ctx.font = "68px 'Press Start 2P'";
+    if (isTextFilling) {
+      ctx.fillText(text, event.offsetX, event.offsetY);
+    } else {
+      ctx.strokeText(text, event.offsetX, event.offsetY);
+    }
+    ctx.restore();
+  }
+}
+function onTextModeChange() {
+  if (isTextFilling) {
+    isTextFilling = false;
+    textModeBtn.innerText = "글씨 테두리만";
+  } else {
+    isTextFilling = true;
+    textModeBtn.innerText = "글씨 채우기";
+  }
 }
 
 canvas.addEventListener("mousemove", onMouseMove);
@@ -107,3 +139,5 @@ color.addEventListener("change", onColorChange);
 colorOptions.forEach((element) =>
   element.addEventListener("click", onColorChoose)
 );
+canvas.addEventListener("dblclick", insertText);
+textModeBtn.addEventListener("click", onTextModeChange);

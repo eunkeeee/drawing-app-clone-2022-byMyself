@@ -9,11 +9,7 @@
   </head>
   <body>
     <canvas></canvas>
-    <button id="mode-btn"></button>
-    <button id="eraser">Eraser</button>
-    <button id="delete-all">Delete All</button>
-    <input type="file" id="file" accept="image/*" />
-    <input type="range" id="line-width" min="1" max="10" step="0.1" value="5" />
+
     <input type="color" id="color" />
     <div class="color-options">
       <div
@@ -76,6 +72,27 @@
         style="background-color: #e67e22"
         data-color="#e67e22"
       ></div>
+    </div>
+
+    <div class="buttons">
+      <button id="mode-btn"></button>
+      <button id="eraser">Eraser</button>
+      <button id="delete-all">Delete All</button>
+      <input type="file" id="file" accept="image/*" />
+      <button class="text-mode"></button>
+      <input
+        type="text"
+        id="text"
+        placeholder="텍스트를 적고, 캔버스 위에 더블클릭"
+      />
+      <input
+        type="range"
+        id="line-width"
+        min="1"
+        max="10"
+        step="0.1"
+        value="5"
+      />
     </div>
 
     <script src="app.js"></script>
