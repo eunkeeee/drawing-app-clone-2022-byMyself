@@ -1,6 +1,7 @@
 * {
   margin: 0px;
   padding: 0px;
+  box-sizing: border-box;
 }
 body {
   display: flex;
@@ -27,17 +28,28 @@ canvas {
   line-height: 100px;
 }
 .screen__main {
+  padding: 10px 20px;
   display: flex;
   gap: 30px;
+  width: 100%;
 }
 .screen__column--left {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  width: 60%;
   gap: 20px;
 }
 .color-options {
   display: flex;
+  gap: 3px;
+}
+#color {
+  border: none;
+  outline: none;
+  width: 50px;
+  height: 50px;
 }
 .color-option {
   width: 50px;
@@ -46,7 +58,18 @@ canvas {
   border: 4px solid white;
   cursor: pointer;
 }
+
 .buttons {
   display: flex;
   flex-direction: column;
+  gap: 15px;
+  width: 30%;
+}
+.buttons button {
+  background-color: royalblue;
+  color: beige;
+  height: 50px;
+  border: none;
+  border-radius: 15px;
+  font-size: 20px;
 }
