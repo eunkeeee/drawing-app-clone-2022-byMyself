@@ -1,10 +1,11 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
+const lineWidth = document.querySelector("#line-width");
 
 canvas.width = 800;
 canvas.height = 800;
 
-ctx.lineWidth = 2;
+ctx.lineWidth = lineWidth.value; // 초기값 설정 (html에서 지정한 5)
 let isPainting = false;
 
 const colors = [
@@ -33,8 +34,13 @@ function startPainting() {
 }
 function quitPainting() {
   isPainting = false;
+  ctx.beginPath();
+}
+function onLineWidthChange(event) {
+  ctx.lineWidth = event.traget.value;
 }
 
 canvas.addEventListener("mousemove", onMouseMove);
 canvas.addEventListener("mousedown", startPainting);
 canvas.addEventListener("mouseup", quitPainting);
+lineWidth.addEventListener("change", onLineWidthChange);
