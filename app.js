@@ -6,6 +6,7 @@ const deleteAll = document.querySelector("#delete-all");
 const fileInput = document.querySelector("#file");
 const textModeBtn = document.querySelector(".text-mode");
 const textInput = document.querySelector("#text");
+const saveBtn = document.querySelector("#save");
 
 const lineWidth = document.querySelector("#line-width");
 const color = document.querySelector("#color");
@@ -106,7 +107,7 @@ function insertText(event) {
   if (text !== "") {
     ctx.save();
     ctx.lineWidth = 1;
-    ctx.font = "68px 'Press Start 2P'";
+    ctx.font = "68px 'sans-serif'";
     if (isTextFilling) {
       ctx.fillText(text, event.offsetX, event.offsetY);
     } else {
@@ -123,6 +124,13 @@ function onTextModeChange() {
     isTextFilling = true;
     textModeBtn.innerText = "글씨 채우기";
   }
+}
+function saveImg() {
+  const url = canvas.toDataURL();
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "myDrawing.png";
+  a.click();
 }
 
 canvas.addEventListener("mousemove", onMouseMove);
@@ -141,3 +149,4 @@ colorOptions.forEach((element) =>
 );
 canvas.addEventListener("dblclick", insertText);
 textModeBtn.addEventListener("click", onTextModeChange);
+saveBtn.addEventListener("click", saveImg);
