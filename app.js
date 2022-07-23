@@ -1,7 +1,9 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
+const strokeOrFillBtn = document.querySelector("#stroke-or-fill");
 const lineWidth = document.querySelector("#line-width");
 const color = document.querySelector("#color");
+const colorOptions = Array.from(document.querySelectorAll(".color-option"));
 
 canvas.width = 800;
 canvas.height = 800;
@@ -9,27 +11,28 @@ canvas.height = 800;
 ctx.lineWidth = lineWidth.value; // 초기값 설정 (html에서 지정한 5)
 let isPainting = false;
 
-const colors = [
-  "#ff3838",
-  "#ffb8b8",
-  "#c56cf0",
-  "#ff9f1a",
-  "#fff200",
-  "#32ff7e",
-  "#7efff5",
-  "#18dcff",
-  "#7d5fff",
-];
+strokeOrFillBtn.innerText = "Draw Line";
+let isStroke = true;
 
 function onColorChange(event) {
   ctx.fillStyle = event.target.value;
   ctx.strokeStyle = event.target.value;
 }
+function onColorChoose(event) {
+  const chosenColor = event.target.dataset.color;
+  ctx.fillStyle = chosenColor;
+  ctx.strokeStyle = chosenColor;
+  color.value = chosenColor; // 고른 컬러에 대한 피드백 제공
+}
 function onMouseMove(event) {
   if (isPainting) {
     // 마우스가 지나간 x,y 좌표: event.offsetX/Y로 가져올 수 있음
     ctx.lineTo(event.offsetX, event.offsetY);
-    ctx.stroke();
+    if (isStroke) {
+      ctx.stroke();
+    } else {
+      ctx.fill();
+    }
     return;
   }
   ctx.moveTo(event.offsetX, event.offsetY);
@@ -41,6 +44,15 @@ function quitPainting() {
   isPainting = false;
   ctx.beginPath();
 }
+function StrokeFillChange() {
+  if (isStroke) {
+    isStroke = false;
+    strokeOrFillBtn.innerText = "Draw Surface";
+  } else {
+    isStroke = true;
+    strokeOrFillBtn.innerText = "Draw Line";
+  }
+}
 function onLineWidthChange(event) {
   ctx.lineWidth = event.target.value;
 }
@@ -48,5 +60,9 @@ function onLineWidthChange(event) {
 canvas.addEventListener("mousemove", onMouseMove);
 canvas.addEventListener("mousedown", startPainting);
 canvas.addEventListener("mouseup", quitPainting);
+strokeOrFillBtn.addEventListener("click", StrokeFillChange);
 lineWidth.addEventListener("change", onLineWidthChange);
 color.addEventListener("change", onColorChange);
+colorOptions.forEach((element) =>
+  element.addEventListener("click", onColorChoose)
+);
