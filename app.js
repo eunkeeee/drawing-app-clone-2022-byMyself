@@ -5,6 +5,7 @@ canvas.width = 800;
 canvas.height = 800;
 
 ctx.lineWidth = 2;
+let isPainting = false;
 
 const colors = [
   "#ff3838",
@@ -19,13 +20,21 @@ const colors = [
 ];
 
 function onMouseMove(event) {
-  // 마우스가 지나간 x,y 좌표: event.offsetX/Y로 가져올 수 있음
-  ctx.beginPath();
-  ctx.moveTo(800, 800);
-  const color = colors[Math.floor(Math.random() * colors.length)];
-  ctx.strokeStyle = color;
-  ctx.lineTo(event.offsetX, event.offsetY);
-  ctx.stroke();
+  if (isPainting) {
+    // 마우스가 지나간 x,y 좌표: event.offsetX/Y로 가져올 수 있음
+    ctx.lineTo(event.offsetX, event.offsetY);
+    ctx.stroke();
+    return;
+  }
+  ctx.moveTo(event.offsetX, event.offsetY);
+}
+function startPainting() {
+  isPainting = true;
+}
+function quitPainting() {
+  isPainting = false;
 }
 
 canvas.addEventListener("mousemove", onMouseMove);
+canvas.addEventListener("mousedown", startPainting);
+canvas.addEventListener("mouseup", quitPainting);
